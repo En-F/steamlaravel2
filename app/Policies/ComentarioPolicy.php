@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Comentario;
 use App\Models\User;
+use App\Models\Videojuego;
 use Illuminate\Auth\Access\Response;
 
 class ComentarioPolicy
@@ -11,25 +12,35 @@ class ComentarioPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user): Response
     {
-        return false;
+        return Response::allow();
+        // return $user->name == 'admin'
+        //     ? Response::allow()
+        //     : Response::deny('Sólo el administrador puede ver los comentarios.');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Comentario $comentario): bool
+    public function view(User $user, Comentario $comentario): Response
     {
-        return false;
+        return Response::allow();
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        return false;
+        return Response::allow();
+    }
+
+    public function store(User $user, Videojuego $videojuego): Response
+    {
+        return $user->videojuegos()->where('videojuego_id', $videojuego->id)->exists()
+            ? Response::allow()
+            : Response::deny('Sólo puedes comentar videojuegos que has comprado.');
     }
 
     /**

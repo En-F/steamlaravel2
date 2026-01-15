@@ -1,18 +1,75 @@
 <x-app-layout>
-    <table class="w-full text-sm text-left rtl:text-right text-body">
-        <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
-            <th scope="col" class="px-6 py-3 font-medium">Nombre</th>
-            <th scope="col" class="px-6 py-3 font-medium">Desarralladora</th>
-            <th scope="col" class="px-6 py-3 font-medium">Generos</th>
-            <th scope="col" class="px-6 py-3 font-medium">Editoras</th>
-        </thead>
-        <tbody>
-            @foreach ($videojuego->generos as $genero)
-                <td class="px-6 py-4">{{ $videojuego->nombre }}</td>
-                <td class="px-6 py-4">{{ $desarrolladora->denominacion }}</td>
-                <td class="px-6 py-4">{{ $genero->genero }}</td>
-                <td class="px-6 py-4">{{ $desarrolladora->editora->nombre }}</td>
-            @endforeach
-        </tbody>
-    </table>
+    <x-errores />
+    <div class="card bg-base-300 w-full shadow-sm">
+        <figure class="p-4">
+            <img width="320" height="200"
+                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                alt="Shoes" />
+        </figure>
+        <div class="card-body">
+            <h2 class="card-title text-3xl uppercase tracking-wide">
+                {{ $videojuego->nombre }}
+            </h2>
+            <span>Publicado el {{ $videojuego->lanzamiento_formateado }}</span>
+
+            <ul class="list bg-base-100 rounded-box shadow-md">
+                <li class="p-4 pb-2 opacity-60 tracking-wide text-xl">
+                    Géneros
+                </li>
+
+                @foreach ($videojuego->generos as $genero)
+                    <li class="list-row">
+                        <div>
+                            <img class="size-10 rounded-box"
+                                src="https://img.daisyui.com/images/profile/demo/1@94.webp" />
+                        </div>
+                        <div>
+                            <div class="text-lg">
+                                <a class="link link-primary" href="{{ route('generos.show', $genero) }}">
+                                    {{ $genero->genero }}
+                                </a>
+                            </div>
+                        </div>
+                        @auth
+                            <form
+                                action="{{ route(
+                                    'videojuegos.quitar_genero',
+                                    ['videojuego' => $videojuego, 'genero' => $genero]
+                                ) }}"
+                                method="POST"
+                                >
+                                @method('DELETE')
+                                @csrf
+                                <button class="btn btn-square btn-ghost">🗑</button>
+                            </form>
+                        @endauth
+                    </li>
+                @endforeach
+            </ul>
+            @auth
+                @if ($otros_generos->isNotEmpty())
+                    <form
+                    class="mt-4"
+                        action="{{ route('videojuegos.agregar_genero', $videojuego) }}"
+                        method="POST"
+                        >
+                        @csrf
+                        <div class="flex gap-3">
+                            <label for="genero_id" class="floating-label w-80">
+                                <span>Género a añadir:</span>
+                                <select class="select" name="genero_id" id="genero_id">
+                                    @foreach ($otros_generos as $otro_genero)
+                                    <option value="{{ $otro_genero->id }}">
+                                        {{ $otro_genero->genero }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </label>
+                            <button type="submit" class="btn btn-primary">Añadir</button>
+                        </div>
+                    </form>
+                @endif
+            @endauth
+        </div>
+    </div>
 </x-app-layout>

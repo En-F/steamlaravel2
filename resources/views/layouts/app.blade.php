@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html class="bg-gray-200">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Mi aplicación</title>
+    <title>{{ $title ?? 'Mi aplicación' }}</title>
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @else
@@ -24,26 +24,34 @@
             </div>
             <div class="flex-none">
                 <ul class="menu menu-horizontal px-1">
+                    <li><a href="{{ route('generos.index') }}">Géneros</a></li>
+                    <li><a href="{{ route('clientes.index') }}">Clientes</a></li>
                     <li><a href="{{ route('videojuegos.index') }}">Videojuegos</a></li>
-                    <li><a href="{{ route('desarrolladoras.index') }}">Desarrolladora</a></li>
-                    <li><a href="{{ route('editoras.index') }}">Editoras</a></li>
-                    <li><a href="{{ route('generos.index') }}">Generos</a></li>
                     <li>
-                        <details>
-                            <summary>Menú</summary>
-                            <ul class="bg-base-100 rounded-t-none p-2">
-                                <li><a href="">Opciones</a></li>
-                                <li><a href="">Salir</a></li>
-                            </ul>
-                        </details>
+                        @auth
+                            <details>
+                                <summary>{{ Auth::user()->name }}</summary>
+                                <ul class="bg-base-100 rounded-t-none p-2 z-1">
+                                    <li><a href="{{ route('user.profile') }}">Perfil</a></li>
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit">Salir</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </details>
+                        @else
+                            <a href="{{ route('login') }}">Login</a>
+                        @endauth
                     </li>
                 </ul>
             </div>
         </div>
         <!-- Principal -->
         <main class="m-6">
-            <x-alert-exito/>
-            <x-alert-fallo/>
+            <x-alert-exito />
+            <x-alert-fallo />
             {{ $slot }}
         </main>
     </div>

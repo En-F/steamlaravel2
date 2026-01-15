@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comentario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ComentarioController extends Controller
 {
@@ -12,7 +13,8 @@ class ComentarioController extends Controller
      */
     public function index()
     {
-        //
+        Gate::authorize('viewAny', Comentario::class);
+        return 'hola';
     }
 
     /**
@@ -20,7 +22,7 @@ class ComentarioController extends Controller
      */
     public function create()
     {
-        //
+        Gate::authorize('create', Comentario::class);
     }
 
     /**
@@ -28,8 +30,8 @@ class ComentarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        Gate::authorize('store', [Comentario::class, $request->videojuego]);
+   }
 
     /**
      * Display the specified resource.
@@ -44,7 +46,7 @@ class ComentarioController extends Controller
      */
     public function edit(Comentario $comentario)
     {
-        //
+        Gate::authorize('update', $comentario);
     }
 
     /**
