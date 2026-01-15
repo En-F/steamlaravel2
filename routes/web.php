@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\DesarrolladoraController;
 use App\Http\Controllers\EditoraController;
 use App\Http\Controllers\GeneroController;
@@ -15,3 +16,4 @@ Route::resource('videojuegos',VideojuegoController::class);
 Route::resource('desarrolladoras',DesarrolladoraController::class);
 Route::resource('editoras',EditoraController::class);
 Route::resource('generos',GeneroController::class);
+Route::resource('comentarios',ComentarioController::class);

@@ -57,5 +57,8 @@ class User extends Authenticatable
         return $this->morphedByMany(Hardware::class, 'adquirible');
     }
 
+    public function comentarios(){
+        return $this->hasMany(Comentario::class);
+    }
 
 }

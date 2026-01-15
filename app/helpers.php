@@ -16,7 +16,9 @@ if(!function_exists('fecha_larga')){
 }
 
 
-function dinero_f($valor){
-    $formatter = new \NumberFormatter('es_Es',\NumberFormatter::CURRENCY);
-    return $formatter->formatCurrency($valor,'EUR');
+if (!function_exists('dinero_f')) {
+    function dinero_f($valor) {
+        $formatter = new \NumberFormatter('es_ES', \NumberFormatter::CURRENCY);
+        return $formatter->formatCurrency($valor, 'EUR');
+    }
 }

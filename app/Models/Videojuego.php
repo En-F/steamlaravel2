@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class Videojuego extends Model
 {
@@ -45,6 +47,10 @@ class Videojuego extends Model
 
     public function users(): MorphToMany{
         return $this->morphToMany(User::class,'adquirible');
+    }
+
+    public function comentarios(): hasMany{
+        return $this->hasMany(Comentario::class);
     }
 
 }

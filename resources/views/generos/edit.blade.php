@@ -9,7 +9,7 @@
             <input type="text" name="genero" id="genero" value="{{ old('genero',$genero->genero) }}">
         </label>
         <div class="flex-2">
-            <button class="btn btn">Modificar</button>
+            <button class="btn">Modificar</button>
             <a href="{{ route('generos.index') }}">Volver</a>
         </div>
     </form>
