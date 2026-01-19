@@ -4,53 +4,75 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Videojuego extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'nombre',
         'precio',
         'lanzamiento',
-        'desarrolladora_id'
+        'desarrolladora_id',
     ];
 
     protected $casts = [
-        'lanzamiento' => 'datetime'
+        'lanzamiento' => 'datetime',
     ];
 
-    public function desarrolladora(): BelongsTo{
-        return $this->belongsTo(Desarrolladora::class);
-    }
-
-    public function getLanzamientoFormateadoAttribute(){
+    public function getLanzamientoFormateadoAttribute(): string
+    {
         return fecha_larga($this->lanzamiento);
     }
 
-    public function getPrecioFormateadoAttribute(){
-        $formatter = new \NumberFormatter('es_Es',\NumberFormatter::CURRENCY);
-        return $formatter->formatCurrency($this->precio,'EUR');
+    // public function getPrecioFormateadoAttribute(): string
+    // {
+    //     return dinero($this->precio);
+    // }
+
+    public function desarrolladora(): BelongsTo
+    {
+        return $this->belongsTo(Desarrolladora::class);
     }
 
-    public function generos(){
-        return $this->belongsToMany(Genero::class,)
-        ->withTimestamps();
+    public function editora(): BelongsTo
+    {
+        return $this->desarrolladora->editora();
     }
 
-    public function editora(): HasManyThrough{
-        return $this->hasManyThrough(Editora::class,Desarrolladora::class);
+    public function generos(): BelongsToMany
+    {
+        return $this->belongsToMany(Genero::class)
+            ->withTimestamps()
+            ->orderBy('genero');
     }
 
-    public function users(): MorphToMany{
-        return $this->morphToMany(User::class,'adquirible');
+    public function logros(): HasMany
+    {
+        return $this->hasMany(Logro::class);
     }
 
-    public function comentarios(): hasMany{
+    public function users(): MorphToMany
+    {
+        return $this->morphToMany(User::class, 'adquirible');
+    }
+
+    public function comentarios(): HasMany
+    {
         return $this->hasMany(Comentario::class);
     }
 
+    public static function rules(): array
+    {
+        return [
+            'nombre' => 'required|max:255',
+            'precio' => 'required|numeric|decimal:2|gte:-999999.99|lte:999999.99',
+            'lanzamiento' => 'required|date',
+            'desarrolladora_id' => 'required|exists:desarrolladoras,id',
+        ];
+    }
 }
