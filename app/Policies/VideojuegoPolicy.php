@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Plataforma;
 use App\Models\User;
+use App\Models\Videojuego;
 use Illuminate\Auth\Access\Response;
 
-class PlataformaPolicy
+class VideojuegoPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class PlataformaPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Plataforma $plataforma): bool
+    public function view(User $user, Videojuego $videojuego): bool
     {
         return false;
     }
@@ -29,29 +29,29 @@ class PlataformaPolicy
      */
     public function create(User $user): bool
     {
-        return $user->name == 'admin2';
+         return $user->name == 'admin2';
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Plataforma $plataforma): bool
+    public function update(User $user, Videojuego $videojuego): bool
     {
-        return false;
+         return $user->name == 'admin2';
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Plataforma $plataforma): bool
+    public function delete(User $user, Videojuego $videojuego): bool
     {
-        return false;
+        return $user->name == 'admin2';
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Plataforma $plataforma): bool
+    public function restore(User $user, Videojuego $videojuego): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ class PlataformaPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Plataforma $plataforma): bool
+    public function forceDelete(User $user, Videojuego $videojuego): bool
     {
         return false;
     }

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-errores/>
-    <form action="{{ route('videojuegos.update',$videojuego->id) }}" method="POST">
+    <form action="{{ route('videojuegos.update',$videojuego) }}" method="POST">
         @method('PUT')
         @csrf
         <h2 class="text-2xl  font-bold mb-3">Modificar Videojuego</h2>
@@ -17,14 +17,14 @@
         <label for="lanzamiento" class="floating-label">
             <span>lanzamiento:*</span>
             <input type="text" id="lanzamiento"  name="lanzamiento" value="{{ old('lanzamiento',$videojuego->lanzamiento) }}"><br>
-        </label>  
+        </label>
         <br>
         <label for="nombre" class="floating-label">
             <span>Nombre Desarrolladora:*</span>
         </label>
         <select name="desarrolladora_id" id="desarrolladora_id" class="floating-label">
             @foreach ($desarrolladoras as $desarrolladora)
-                <option 
+                <option
                 value="{{$desarrolladora->id}}"
                 {{  old('desarrolladora_id', $videojuego->desarrolladora_id) == $desarrolladora->id ? 'selected' : '' }}>
                 {{ $desarrolladora->denominacion }}

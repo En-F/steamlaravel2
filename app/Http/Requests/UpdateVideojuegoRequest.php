@@ -22,8 +22,6 @@ class UpdateVideojuegoRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        return Videojuego::rules();
     }
 }

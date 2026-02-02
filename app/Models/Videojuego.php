@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -18,6 +19,7 @@ class Videojuego extends Model
         'precio',
         'lanzamiento',
         'desarrolladora_id',
+        'imagen'
     ];
 
     protected $casts = [
@@ -73,6 +75,12 @@ class Videojuego extends Model
             'precio' => 'required|numeric|decimal:2|gte:-999999.99|lte:999999.99',
             'lanzamiento' => 'required|date',
             'desarrolladora_id' => 'required|exists:desarrolladoras,id',
+            'imagen'=> 'nullable|image|mimes:jpge,png,jpg,gif,svg,webp|max:2048'
         ];
     }
+
+    public function getImagenUrdlAttribute(){
+        return Storage::url("videojuegos/". $this->imagen);
+    }
+
 }

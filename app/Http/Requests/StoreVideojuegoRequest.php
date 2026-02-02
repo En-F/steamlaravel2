@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Controllers\VideojuegoController;
+use App\Models\Videojuego;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreVideojuegoRequest extends FormRequest
@@ -22,8 +23,6 @@ class StoreVideojuegoRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        return Videojuego::rules();
     }
 }

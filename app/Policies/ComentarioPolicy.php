@@ -51,6 +51,7 @@ class ComentarioPolicy
     public function update(User $user, Comentario $comentario): bool
     {
         return false;
+
     }
 
     /**

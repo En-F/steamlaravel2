@@ -54,6 +54,15 @@ class VideojuegoController extends Controller
     public function store(StoreVideojuegoRequest $request)
     {
         Videojuego::create($request->validated());
+        $datos = $request->validated();
+        $file = $request->file('imagen');
+
+        if ($request->hasFile('imagen')) {
+            $ruta = $file->store('videojuegos', 'public');
+            $datos['imagen'] = basename($ruta);
+        }
+
+        Videojuego::create($datos);
         return redirect()->route('videojuegos.index');
     }
 

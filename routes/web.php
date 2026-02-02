@@ -139,3 +139,6 @@ Route::post('/login', function (Request $request) {
 })->name('login.perform');
 
 Route::resource('comentarios', ComentarioController::class);
+
+
+Route::livewire('/desarrolladora', 'pages::desarrolladora.index')->name('desarrolladora.index');

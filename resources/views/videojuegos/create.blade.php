@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-errores/>
-    <form action="{{ route('videojuegos.index') }}" method="POST">
+    <form action="/videojuegos" method="POST">
         @csrf
         <h2 class="text-2xl  font-bold mb-3">Insertar un videojuego</h2>
         <label for="nombre"  class="floating-label">
@@ -23,13 +23,20 @@
         </label>
         <select name="desarrolladora_id" id="desarrolladora_id" class="floating-label">
             @foreach ($desarrolladoras as $desarrolladora)
-                <option 
+                <option
                 value="{{$desarrolladora->id}}"
                 {{ old('desarrolladora_id') == $desarrolladora->id ? 'selected':''}}>
                 {{ $desarrolladora->denominacion }}
                 </option>
             @endforeach
-        </select>    
+        </select>
+        <div class="mt-6 mb-4">
+                <label for="imagen" class="floating-label">
+                    <span>Imagen:</span>
+                    <input class="file-input" type="file" id="imagen"
+                    name="imagen" value="{{ old('imagen') }}">
+                </label>
+            </div>
         <br>
         <div class="flex-2">
             <button class="btn btn-soft "> Insertar</button>
